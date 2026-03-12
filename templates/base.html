@@ -1,0 +1,130 @@
+<!doctype html>
+<!--suppress HtmlUnknownTarget -->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Automation Support Portal{% endblock %}</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.3/dist/lux/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+  <style>
+  :root {
+    --bs-primary: #da202a;
+    --bs-primary-rgb: 218, 32, 42;
+  }
+
+  body {
+    background: linear-gradient(180deg, #f8f9fa 0%, #eef1f4 100%);
+    min-height: 100vh;
+  }
+
+  /* Override Bootstrap primary colour */
+  .btn-primary {
+    background-color: #da202a;
+    border-color: #da202a;
+  }
+
+  .btn-primary:hover {
+    background-color: #c61d25;
+    border-color: #c61d25;
+  }
+
+  .text-primary {
+    color: #da202a !important;
+  }
+
+  .badge.bg-primary {
+    background-color: #da202a !important;
+  }
+
+  a {
+    color: #da202a;
+  }
+
+  a:hover {
+    color: #b81b23;
+  }
+
+  .brand-hero {
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+    border: 1px solid #e5e7eb;
+    border-radius: 1rem;
+    padding: 1.5rem;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.04);
+    margin-bottom: 1.5rem;
+  }
+
+  .auth-card {
+    border: 0;
+    border-radius: 1rem;
+    box-shadow: 0 0.75rem 1.5rem rgba(0, 0, 0, 0.08);
+  }
+
+  .auth-card .card-body {
+    padding: 2rem;
+  }
+</style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
+  <div class="container">
+    <a class="navbar-brand fw-semibold" href="{{ url_for('list_tickets') }}">
+      <i class="bi bi-robot me-2"></i>Automation Support Portal
+    </a>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="nav">
+      {% if session.get("user_id") %}
+        <ul class="navbar-nav me-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('list_tickets') }}">Tickets</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('add_ticket') }}">Raise Ticket</a>
+          </li>
+          <!-- Only show admin navigation items to users with the admin role -->
+          {% if session.get("user_role") == "admin" %}
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('add_robot') }}">Add Robot</a>
+          </li>
+          {% endif %}
+        </ul>
+
+        <span class="navbar-text text-white small me-3">
+          {{ session.get("user_name") }} ({{ session.get("user_role") }})
+        </span>
+
+        <a class="btn btn-primary btn-sm" href="{{ url_for('logout') }}">Logout</a>
+      {% else %}
+        <ul class="navbar-nav me-auto"></ul>
+        <a class="btn btn-outline-light btn-sm me-2" href="{{ url_for('login') }}">Login</a>
+        <a class="btn btn-primary btn-sm" href="{{ url_for('register') }}">Register</a>
+      {% endif %}
+    </div>
+  </div>
+</nav>
+
+<main class="container py-4">
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      {% for category, message in messages %}
+        <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+          {{ message }}
+          <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+
+  {% block content %}{% endblock %}
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+{% block title %}Edit {{ ticket.ticket_ref }} - Automation Support Portal{% endblock %}
+
+{% block content %}
+<!--suppress HtmlUnknownTarget -->
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <div>
+    <h1 class="h3 mb-1">Edit ticket</h1>
+    <div class="text-muted">{{ ticket.ticket_ref }}</div>
+  </div>
+  <a class="btn btn-outline-secondary" href="{{ url_for('ticket_detail', ticket_id=ticket.id) }}">Back</a>
+</div>
+
+<form method="post" class="card shadow-sm">
+  <div class="card-body">
+    <div class="row g-3">
+
+      <div class="col-md-6">
+        <label for="robot_id" class="form-label">Robot</label>
+        <select id="robot_id" name="robot_id" class="form-select" required>
+          {% for r in robots %}
+            <option value="{{ r.id }}" {% if r.id == ticket.robot_id %}selected{% endif %}>
+              {{ r.name }} ({{ r.platform }})
+            </option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="col-md-6">
+        <label class="form-label">Assign to</label>
+        <label>
+          <select name="assigned_to_id" class="form-select">
+            <option value="">— Unassigned —</option>
+            {% for u in users %}
+              <option value="{{ u.id }}" {% if ticket.assigned_to_user_id == u.id %}selected{% endif %}>
+                {{ u.name }} ({{ u.email }})
+              </option>
+            {% endfor %}
+          </select>
+        </label>
+      </div>
+
+      <div class="col-md-4">
+        <label class="form-label">Category</label>
+        <label>
+          <select name="category" class="form-select" required>
+            {% for c in ["StatusCheck","StatsRequest","Incident","ChangeRequest","Other"] %}
+              <option value="{{ c }}" {% if ticket.category == c %}selected{% endif %}>{{ c }}</option>
+            {% endfor %}
+          </select>
+        </label>
+      </div>
+
+      <div class="col-md-4">
+        <label class="form-label">Status</label>
+        <label>
+          <select name="status" class="form-select" required>
+            {% for s in ["New","In Progress","Waiting on Requestor","Resolved","Closed"] %}
+              <option value="{{ s }}" {% if ticket.status == s %}selected{% endif %}>{{ s }}</option>
+            {% endfor %}
+          </select>
+        </label>
+      </div>
+
+      <div class="col-12">
+        <label class="form-label">Subject</label>
+        <label>
+          <input name="subject" class="form-control" value="{{ ticket.subject }}" required minlength="5">
+        </label>
+      </div>
+
+      <div class="col-12">
+        <label class="form-label">Description</label>
+        <label>
+          <textarea name="description" rows="4" class="form-control" required minlength="10">{{ ticket.description }}</textarea>
+        </label>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="card-footer d-flex gap-2">
+    <button class="btn btn-primary" type="submit">Save changes</button>
+    <a class="btn btn-outline-secondary" href="{{ url_for('ticket_detail', ticket_id=ticket.id) }}">Cancel</a>
+  </div>
+</form>
+{% endblock %}

@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% block title %}Login - Automation Support Portal{% endblock %}
+
+{% block content %}
+<!--suppress HtmlUnknownTarget -->
+<div class="row justify-content-center align-items-center" style="min-height: 75vh;">
+  <div class="col-lg-10">
+    <div class="row g-4 align-items-center">
+
+      <div class="col-md-6">
+        <div class="brand-hero">
+          <div class="mb-3">
+            <span class="badge bg-primary-subtle text-dark border">
+              Internal Support Portal
+            </span>
+          </div>
+          <h1 class="display-6 fw-semibold mb-3">Welcome back</h1>
+          <p class="text-muted mb-4">
+            Sign in to manage automation support requests, robot incidents, status checks and service delivery updates.
+          </p>
+
+          <div class="d-flex flex-column gap-3">
+            <div class="d-flex align-items-center">
+              <i class="bi bi-ticket-detailed fs-4 text-primary me-3"></i>
+              <div>
+                <div class="fw-semibold">Track support tickets</div>
+                <div class="text-muted small">Monitor incidents, stats requests and change requests</div>
+              </div>
+            </div>
+
+            <div class="d-flex align-items-center">
+              <i class="bi bi-cpu fs-4 text-primary me-3"></i>
+              <div>
+                <div class="fw-semibold">Manage robots</div>
+                <div class="text-muted small">UiPath and Power Automate automations in one portal</div>
+              </div>
+            </div>
+
+            <div class="d-flex align-items-center">
+              <i class="bi bi-clock-history fs-4 text-primary me-3"></i>
+              <div>
+                <div class="fw-semibold">Maintain audit trail</div>
+                <div class="text-muted small">Capture updates and support notes for each ticket</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="card auth-card">
+          <div class="card-body">
+            <div class="text-center mb-4">
+              <i class="bi bi-person-circle fs-1 text-primary"></i>
+              <h2 class="h3 mt-2 mb-1">Login</h2>
+              <p class="text-muted mb-0">Access your support workspace</p>
+            </div>
+
+            <form method="post">
+              <div class="mb-3">
+                <label for="email" class="form-label">Email address</label>
+                <input id="email" name="email" type="email" class="form-control form-control-lg" required>
+              </div>
+
+              <div class="mb-4">
+                <label for="password" class="form-label">Password</label>
+                <input id="password" name="password" type="password" class="form-control form-control-lg" required>
+              </div>
+
+              <button class="btn btn-primary btn-lg w-100" type="submit">
+                <i class="bi bi-box-arrow-in-right me-2"></i>Login
+              </button>
+            </form>
+
+            <p class="mt-4 mb-0 text-center text-muted">
+              No account yet?
+              <a href="{{ url_for('register') }}">Register here</a>
+            </p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+{% endblock %}

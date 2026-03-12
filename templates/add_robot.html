@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}Add Robot - Automation Support Portal{% endblock %}
+
+{% block content %}
+<!--suppress ALL -->
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <div>
+    <h1 class="h3 mb-1">Add robot</h1>
+    <div class="text-muted">Create a robot record so users can raise tickets against it</div>
+  </div>
+  <a class="btn btn-outline-secondary" href="{{ url_for('list_tickets') }}">Back</a>
+</div>
+
+<form method="post" class="card shadow-sm">
+  <div class="card-body">
+    <div class="row g-3">
+      <div class="col-md-6">
+        <label for="form-control" class="form-label">Robot name</label>
+        <input id="form-control" class="form-control" name="name" required>
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">Platform</label>
+        <select class="form-select" name="platform" required>
+          <option value="UiPath">UiPath</option>
+          <option value="Power Automate">Power Automate</option>
+        </select>
+      </div>
+      <div class="col-md-2 d-flex align-items-end">
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" name="is_active" checked>
+          <label class="form-check-label">Active</label>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card-footer d-flex gap-2">
+    <button class="btn btn-primary" type="submit">Save robot</button>
+    <a class="btn btn-outline-secondary" href="{{ url_for('list_tickets') }}">Cancel</a>
+  </div>
+</form>
+{% endblock %}

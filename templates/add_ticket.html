@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+{% block title %}Raise Ticket - Automation Support Portal{% endblock %}
+
+{% block content %}
+<!--suppress HtmlUnknownTarget -->
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <div>
+    <h1 class="h3 mb-1">Raise ticket</h1>
+    <div class="text-muted">Ask a question, request stats, or report a robot issue</div>
+  </div>
+  <a class="btn btn-outline-secondary" href="{{ url_for('list_tickets') }}">Back</a>
+</div>
+
+<form method="post">
+  <div class="row g-3">
+
+    <div class="col-12">
+      <div class="card shadow-sm border-0">
+        <div class="card-body">
+          <h2 class="h5 mb-3">Requestor</h2>
+
+          <div class="alert alert-light border mb-0">
+            <div class="fw-semibold">{{ session.get("user_name") }}</div>
+            <div class="text-muted small">{{ session.get("user_role") }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12">
+      <div class="card shadow-sm border-0">
+        <div class="card-body">
+          <h2 class="h5 mb-3">Ticket details</h2>
+
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label for="robot_id" class="form-label">Robot</label>
+              <select id="robot_id" name="robot_id" class="form-select" required>
+                <option value="">— Select robot —</option>
+                {% for r in robots %}
+                  <option value="{{ r.id }}">{{ r.name }} ({{ r.platform }})</option>
+                {% endfor %}
+              </select>
+              <div class="form-text">If your robot isn’t listed, add it first.</div>
+            </div>
+
+            <div class="col-md-6">
+              <label for="assigned_to_id" class="form-label">Assign to (optional)</label>
+              <select id="assigned_to_id" name="assigned_to_id" class="form-select">
+                <option value="">— Unassigned —</option>
+                {% for u in users %}
+                  <option value="{{ u.id }}">{{ u.name }} ({{ u.email }})</option>
+                {% endfor %}
+              </select>
+            </div>
+
+            <div class="col-md-4">
+              <label for="category" class="form-label">Category</label>
+              <select id="category" name="category" class="form-select" required>
+                <option value="StatusCheck">StatusCheck</option>
+                <option value="StatsRequest">StatsRequest</option>
+                <option value="Incident">Incident</option>
+                <option value="ChangeRequest">ChangeRequest</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+
+            <div class="col-md-4">
+              <label for="status" class="form-label">Status</label>
+              <select id="status" name="status" class="form-select" required>
+                <option value="New">New</option>
+                <option value="In Progress">In Progress</option>
+                <option value="Waiting on Requestor">Waiting on Requestor</option>
+                <option value="Resolved">Resolved</option>
+                <option value="Closed">Closed</option>
+              </select>
+            </div>
+
+            <div class="col-12">
+              <label for="subject" class="form-label">Subject</label>
+              <input id="subject" name="subject" class="form-control" required minlength="5">
+            </div>
+
+            <div class="col-12">
+              <label for="description" class="form-label">Description</label>
+              <textarea id="description" name="description" rows="4" class="form-control" required minlength="10"
+                        placeholder="E.g., Is the robot running? When was the last successful run? How many cases were processed today?"></textarea>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 d-flex gap-2">
+      <button class="btn btn-primary" type="submit">Submit ticket</button>
+      <a class="btn btn-outline-secondary" href="{{ url_for('list_tickets') }}">Cancel</a>
+    </div>
+
+  </div>
+</form>
+{% endblock %}

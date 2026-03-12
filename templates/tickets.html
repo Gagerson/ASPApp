@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% block title %}Tickets - Automation Support Portal{% endblock %}
+
+{% block content %}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <div>
+    <h1 class="h3 mb-1">Tickets</h1>
+    <div class="text-muted">Requests and incidents for UiPath &amp; Power Automate robots</div>
+  </div>
+  <a class="btn btn-primary" href="{{ url_for('add_ticket') }}">+ Raise ticket</a>
+</div>
+
+<div class="card shadow-sm">
+  <div class="card-body p-0">
+    {% if tickets %}
+      <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+          <thead class="table-light">
+            <tr>
+              <th>Ref</th>
+              <th>Status</th>
+              <th>Category</th>
+              <th>Robot</th>
+              <th>Platform</th>
+              <th>Requestor</th>
+              <th>Assigned</th>
+              <th class="text-end">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for t in tickets %}
+            <tr>
+              <td class="fw-semibold">
+                <a class="text-decoration-none" href="{{ url_for('ticket_detail', ticket_id=t.id) }}">
+                  {{ t.ticket_ref }}
+                </a>
+              </td>
+              <td>
+                <!-- Badge colour is set dynamically based on ticket status -->
+                {% set badge = "secondary" %}
+                {% if t.status == "New" %}{% set badge = "warning" %}{% endif %}
+                {% if t.status == "In Progress" %}{% set badge = "info" %}{% endif %}
+                {% if t.status == "Waiting on Requestor" %}{% set badge = "primary" %}{% endif %}
+                {% if t.status == "Resolved" %}{% set badge = "success" %}{% endif %}
+                {% if t.status == "Closed" %}{% set badge = "dark" %}{% endif %}
+                <span class="badge text-bg-{{ badge }}">{{ t.status }}</span>
+              </td>
+              <td>{{ t.category }}</td>
+              <td>{{ t.robot.name }}</td>
+              <td><span class="badge text-bg-light text-dark border">{{ t.robot.platform }}</span></td>
+              <td>{{ t.created_by.name }}</td>
+              <td>{{ t.assigned_to.name if t.assigned_to else "Unassigned" }}</td>
+              <td class="text-end">
+                <a class="btn btn-sm btn-outline-primary" href="{{ url_for('edit_ticket', ticket_id=t.id) }}">Edit</a>
+                {% if session.get("user_role") == "admin" %}
+                <form method="post"
+                      action="{{ url_for('delete_ticket', ticket_id=t.id) }}"
+                      class="d-inline"
+                      onsubmit="return confirm('Delete this ticket?');">
+                <button class="btn btn-sm btn-outline-danger" type="submit">Delete</button>
+                </form>
+                {% endif %}
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    {% else %}
+      <div class="p-4">
+        <div class="alert alert-info mb-0">
+          No tickets yet. Add a robot first, then raise a ticket.
+        </div>
+      </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}
