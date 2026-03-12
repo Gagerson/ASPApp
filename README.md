@@ -39,7 +39,7 @@ A web-based helpdesk application for managing automation support tickets raised 
 python app.py
 ```
 
-The application will be available at: **http://127.0.0.1:5000**
+The application will be available at: **https://aspapp.onrender.com/**
 
 The database is created and seeded automatically on first run — no manual setup required.
 
