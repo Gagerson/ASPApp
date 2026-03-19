@@ -2,7 +2,6 @@
 seed.py — Populates the database with sample data for testing.
 """
 
-from app import app
 from db import db
 from models import User, Robot, Ticket, TicketUpdate
 from helpers import generate_ticket_ref
