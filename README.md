@@ -51,7 +51,7 @@ The database is created and seeded automatically on first run — no manual setu
 pytest -v
 ```
 
-The test suite uses an in-memory SQLite database and does not affect the application database. All 47 tests should pass on a clean install.
+The test suite uses an in-memory SQLite database and does not affect the application database. All 18 tests should pass on a clean install.
 
 ---
 
