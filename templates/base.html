@@ -13,11 +13,48 @@
   :root {
     --bs-primary: #da202a;
     --bs-primary-rgb: 218, 32, 42;
+    --bs-body-color: #111111;
+    --bs-body-font-size: 1rem;
   }
 
   body {
     background: linear-gradient(180deg, #f8f9fa 0%, #eef1f4 100%);
     min-height: 100vh;
+    font-size: 1rem;
+    color: #111111;
+  }
+
+  /* Darken all general text */
+  p, li, td, th, dd, dt, label, span, div {
+    color: #111111;
+  }
+
+  /* Override Bootstrap's muted text to be darker */
+  .text-muted {
+    color: #444444 !important;
+  }
+
+  .small, small {
+    color: #444444;
+    font-size: 0.875rem;
+  }
+
+  /* Table text */
+  .table {
+    color: #111111;
+    font-size: 1rem;
+  }
+
+  /* Form elements */
+  .form-label {
+    color: #111111;
+    font-weight: 500;
+    font-size: 1rem;
+  }
+
+  .form-control, .form-select {
+    color: #111111;
+    font-size: 1rem;
   }
 
   /* Override Bootstrap primary colour */

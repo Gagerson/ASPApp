@@ -15,6 +15,7 @@
   <div class="card-body">
     <div class="row g-3">
 
+      <!-- Row 1: Robot + Assign to -->
       <div class="col-md-6">
         <label for="robot_id" class="form-label">Robot</label>
         <select id="robot_id" name="robot_id" class="form-select" required>
@@ -27,53 +28,54 @@
       </div>
 
       <div class="col-md-6">
-        <label class="form-label">Assign to</label>
-        <label>
-          <select name="assigned_to_id" class="form-select">
-            <option value="">— Unassigned —</option>
-            {% for u in users %}
-              <option value="{{ u.id }}" {% if ticket.assigned_to_user_id == u.id %}selected{% endif %}>
-                {{ u.name }} ({{ u.email }})
-              </option>
-            {% endfor %}
-          </select>
-        </label>
+        <label for="assigned_to_id" class="form-label">Assign to</label>
+        <select id="assigned_to_id" name="assigned_to_id" class="form-select">
+          <option value="">— Unassigned —</option>
+          {% for u in users %}
+            <option value="{{ u.id }}" {% if ticket.assigned_to_user_id == u.id %}selected{% endif %}>
+              {{ u.name }} ({{ u.email }})
+            </option>
+          {% endfor %}
+        </select>
       </div>
 
-      <div class="col-md-4">
-        <label class="form-label">Category</label>
-        <label>
-          <select name="category" class="form-select" required>
-            {% for c in ["StatusCheck","StatsRequest","Incident","ChangeRequest","Other"] %}
-              <option value="{{ c }}" {% if ticket.category == c %}selected{% endif %}>{{ c }}</option>
-            {% endfor %}
-          </select>
-        </label>
+      <!-- Row 2: Category + Status -->
+      <div class="col-md-6">
+        <label for="category" class="form-label">Category</label>
+        <select id="category" name="category" class="form-select" required>
+          {% for c in ["StatusCheck","StatsRequest","Incident","ChangeRequest","Other"] %}
+            <option value="{{ c }}" {% if ticket.category == c %}selected{% endif %}>{{ c }}</option>
+          {% endfor %}
+        </select>
       </div>
 
-      <div class="col-md-4">
-        <label class="form-label">Status</label>
-        <label>
-          <select name="status" class="form-select" required>
-            {% for s in ["New","In Progress","Waiting on Requestor","Resolved","Closed"] %}
-              <option value="{{ s }}" {% if ticket.status == s %}selected{% endif %}>{{ s }}</option>
-            {% endfor %}
-          </select>
-        </label>
+      <div class="col-md-6">
+        <label for="status" class="form-label">Status</label>
+        <select id="status" name="status" class="form-select" required>
+          {% for s in ["New","In Progress","Waiting on Requestor","Resolved","Closed"] %}
+            <option value="{{ s }}" {% if ticket.status == s %}selected{% endif %}>{{ s }}</option>
+          {% endfor %}
+        </select>
       </div>
 
+      <!-- Row 3: Subject (full width) -->
       <div class="col-12">
-        <label class="form-label">Subject</label>
-        <label>
-          <input name="subject" class="form-control" value="{{ ticket.subject }}" required minlength="5">
-        </label>
+        <label for="subject" class="form-label">Subject</label>
+        <input id="subject" name="subject" class="form-control" value="{{ ticket.subject }}" required minlength="5">
       </div>
 
+      <!-- Row 4: Description (auto-expanding, full width) -->
       <div class="col-12">
-        <label class="form-label">Description</label>
-        <label>
-          <textarea name="description" rows="4" class="form-control" required minlength="10">{{ ticket.description }}</textarea>
-        </label>
+        <label for="description" class="form-label">Description</label>
+        <textarea
+          id="description"
+          name="description"
+          class="form-control"
+          required
+          minlength="10"
+          style="min-height: 120px; resize: vertical; overflow: hidden;"
+          oninput="this.style.height = 'auto'; this.style.height = this.scrollHeight + 'px';"
+        >{{ ticket.description }}</textarea>
       </div>
 
     </div>
@@ -84,4 +86,15 @@
     <a class="btn btn-outline-secondary" href="{{ url_for('ticket_detail', ticket_id=ticket.id) }}">Cancel</a>
   </div>
 </form>
+
+<script>
+  // Auto-expand description on page load to fit existing content
+  document.addEventListener('DOMContentLoaded', function () {
+    const textarea = document.getElementById('description');
+    if (textarea) {
+      textarea.style.height = 'auto';
+      textarea.style.height = textarea.scrollHeight + 'px';
+    }
+  });
+</script>
 {% endblock %}
