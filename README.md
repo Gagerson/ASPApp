@@ -13,7 +13,7 @@ A web-based helpdesk application for managing automation support tickets raised 
 
 ## Installation
 
-1. Clone the repository or download and unzip the project files
+1. Clone the repository or download and unzip the project files (https://github.com/Gagerson/ASPApp)
 
 2. Open a terminal in the project root folder
 
