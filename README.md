@@ -19,7 +19,7 @@ A web-based helpdesk application for managing automation support tickets raised 
 
 3. Create a virtual environment:
    ```
-   python -m venv .venv
+   py -m venv .venv
    ```
 
 4. Activate the virtual environment:
@@ -48,7 +48,7 @@ The database is created and seeded automatically on first run — no manual setu
 ## Running the Tests
 
 ```
-pytest test_app.py -v
+pytest -v
 ```
 
 The test suite uses an in-memory SQLite database and does not affect the application database. All 47 tests should pass on a clean install.
